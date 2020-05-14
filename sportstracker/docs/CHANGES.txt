@@ -2,10 +2,33 @@ Changelog
 ---------
 
 v7.7.1:
+ SportsTracker changes:
+ - Equipment Usage: added a new dialog which displays the usages of each
+   equipment for a selected sport type
+   - the usage contains the total distance, duration and dates of first and
+     last usage
+   - Dialog can be started from the Tools menu
+ - Exercise Dialog: an info message is shown when the user wants to store an
+   exercise without a selected equipment (is often forgotten)
+   - not shown when there is no equipment list for the selected sport type
+ - SQLite Export: column DATE_TIME in table EXERCISE is now of type Integer,
+   the previous type Text has caused problems in queries (e.g. sorting)
+ - updated to JavaFX / OpenJFX 14
+   - provides improved macOS 10.15 support and several bufixes
+ - updated Kotlin to version 1.3.70
+ - updated packaging of native installer creation for macOS, Windows and Linux
+   - now uses jpackage introduced with JDK 14 (JEP 343)
+   - jpackager-backports and workarounds are not needed anymore
+   - created packages are smaller now
  ExerciseViewer changes:
- - updated Garmin FIT SDK library to version 20.96.00
+ - updated Garmin FIT SDK library to version 21.20.00, provides bugfixes
+   and support for newer Garmin devices
  - updated Leaflet to version 1.6.0, provides various fixes and performance
    improvements (contributed by Thomas Feuster, PR #219)
+- Bugfix for reading exercise files from Garmin Fenix 6 and 5X devices
+  (Issue #220: Failed to parse exercise file on new Garmin device)
+- Garmin FIT parser: improved lookup of the device / product name
+  - added the firmware software version to the device name
 
 v7.7.0:
  SportsTracker changes:

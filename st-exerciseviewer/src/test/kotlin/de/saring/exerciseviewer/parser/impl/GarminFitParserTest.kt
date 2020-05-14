@@ -89,7 +89,7 @@ class GarminFitParserTest {
 
         // check exercise data
         assertEquals(EVExercise.ExerciseFileType.GARMIN_FIT, exercise.fileType)
-        assertEquals("Garmin EDGE500", exercise.deviceName)
+        assertEquals("GARMIN EDGE500 (SW 2.3)", exercise.deviceName)
         assertTrue(exercise.recordingMode.isHeartRate)
         assertTrue(exercise.recordingMode.isSpeed)
         assertTrue(exercise.recordingMode.isLocation)
@@ -211,7 +211,7 @@ class GarminFitParserTest {
 
         // check exercise data
         assertEquals(EVExercise.ExerciseFileType.GARMIN_FIT, exercise.fileType)
-        assertEquals("Garmin FR910XT", exercise.deviceName)
+        assertEquals("GARMIN FR910XT (SW 2.5)", exercise.deviceName)
         assertTrue(exercise.recordingMode.isHeartRate)
         assertTrue(exercise.recordingMode.isSpeed)
         assertTrue(exercise.recordingMode.isLocation)
@@ -291,7 +291,7 @@ class GarminFitParserTest {
 
         // check exercise data
         assertEquals(EVExercise.ExerciseFileType.GARMIN_FIT, exercise.fileType)
-        assertEquals("Garmin FENIX2", exercise.deviceName)
+        assertEquals("GARMIN FENIX2 (SW 4.4)", exercise.deviceName)
         assertTrue(exercise.recordingMode.isHeartRate)
         assertTrue(exercise.recordingMode.isSpeed)
         assertTrue(exercise.recordingMode.isLocation)
@@ -376,7 +376,7 @@ class GarminFitParserTest {
 
         // check exercise data
         assertEquals(EVExercise.ExerciseFileType.GARMIN_FIT, exercise.fileType)
-        assertEquals("Garmin EDGE_820", exercise.deviceName)
+        assertEquals("GARMIN EDGE_820 (SW 7.0)", exercise.deviceName)
         assertTrue(exercise.recordingMode.isHeartRate)
         assertTrue(exercise.recordingMode.isSpeed)
         assertTrue(exercise.recordingMode.isLocation)
@@ -447,5 +447,60 @@ class GarminFitParserTest {
         assertEquals(41.471779597923, exercise.sampleList[50].position!!.latitude, 0.000001)
         assertEquals(2.0914101507514, exercise.sampleList[50].position!!.longitude, 0.000001)
         assertEquals(18, exercise.sampleList[50].temperature!!.toInt())
+    }
+
+
+    /**
+     * This method tests the parser with an exercise file with running data (incl. heartrate, altitude, cadence)
+     * recorded by a Garmin Fenix 6 watch.
+     * The speed and altitude values in the sample data are stored differently since newer Fenix devices.
+     */
+    @Test
+    @Throws(EVException::class)
+    fun testParseExerciseFenix6Running() {
+        val exercise = parser.parseExercise("misc/testdata/garmin-fit/Garmin_Fenix_6-Running.fit")
+
+        // check exercise data
+        assertEquals(EVExercise.ExerciseFileType.GARMIN_FIT, exercise.fileType)
+        assertEquals("GARMIN (SW 5.0)", exercise.deviceName) // Fenix 6 model name is still missing in the GarminProduct class (FIT SDK)
+        assertTrue(exercise.recordingMode.isHeartRate)
+        assertTrue(exercise.recordingMode.isSpeed)
+        assertTrue(exercise.recordingMode.isLocation)
+        assertTrue(exercise.recordingMode.isAltitude)
+        assertTrue(exercise.recordingMode.isCadence)
+        assertTrue(exercise.recordingMode.isTemperature)
+
+        assertEquals(LocalDateTime.of(2019, 12, 12, 20, 0,1, 0), exercise.dateTime)
+        assertEquals(1238, exercise.duration!!.toInt())
+
+        assertEquals(120, exercise.heartRateAVG!!.toInt())
+        assertEquals(23, exercise.energy!!.toInt())
+
+        assertEquals(193, exercise.speed!!.distance)
+        assertEquals(5.6, exercise.speed!!.speedAvg.toDouble(), 0.01)
+        assertEquals(6.35, exercise.speed!!.speedMax.toDouble(), 0.01)
+
+        assertEquals(1, exercise.altitude!!.ascent)
+        assertEquals(3, exercise.altitude!!.altitudeAvg.toInt())
+
+        // check some lap data
+        assertEquals(1, exercise.lapList.size)
+        assertEquals(4.7, exercise.lapList[0].speed!!.speedEnd.toDouble(), 0.01)
+        assertEquals(1, exercise.lapList[0].altitude!!.ascent)
+        assertEquals(2, exercise.lapList[0].altitude!!.altitude.toInt())
+
+        // check some sample data
+        assertEquals(29, exercise.sampleList.size)
+        assertEquals(0, exercise.sampleList[0].timestamp!!.toInt())
+        assertEquals(5.81, exercise.sampleList[0].speed!!.toDouble(), 0.01)
+        assertEquals(5, exercise.sampleList[0].altitude!!.toInt())
+
+        assertEquals(30 * 1000, exercise.sampleList[10].timestamp!!.toInt())
+        assertEquals(5.34, exercise.sampleList[10].speed!!.toDouble(), 0.01)
+        assertEquals(3, exercise.sampleList[10].altitude!!.toInt())
+
+        assertEquals(87 * 1000, exercise.sampleList[20].timestamp!!.toInt())
+        assertEquals(6.15, exercise.sampleList[20].speed!!.toDouble(), 0.01)
+        assertEquals(2, exercise.sampleList[20].altitude!!.toInt())
     }
 }

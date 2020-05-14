@@ -46,7 +46,7 @@ monitors might work too, but I can't test them, user feedback is welcome):
   - Garmin Edge        (tested with Edge 500, 520, 530, 705, 820, FIT and TCX files)
   - Garmin Forerunner  (tested with Forerunner 35, 305, 910XT, 645, FIT and TCX files)
   - Garmin Oregon      (tested with Oregon 450, GPX files)
-  - Garmin Fenix       (tested with Fenix 2, FIT files)
+  - Garmin Fenix       (tested with Fenix 2, 5x, 6, FIT files)
   - Timex Ironmen Race Trainer (tested)
   - Timex Ironmen Run Trainer (tested)
   - Timex Ironman Global Trainer  (tested)
@@ -115,7 +115,7 @@ If you want to download exercise files from your heartrate monitor you might
 need one of the download tools listed above.
 
 The application was tested on GNU/Linux (e.g. Ubuntu 18.04), Windows (e.g. 10)
-and macOS (10.13 and 10.14), although it should work on all systems
+and macOS (10.13 - 10.15), although it should work on all systems
 with the required Java Runtime Environment.
 
 
@@ -242,6 +242,11 @@ For sport subtype or equipment usage overview the diagram can also display the
 distance per sport subtype or equipment for a selected sport type.
 And finally it can also display the history of your body weight in the 
 selected time range.
+
+The Equipment Usage dialog can be used for showing usage statistics of each
+equipment for a selected sport type. The usage contains the total distance,
+duration and dates of first and last usage. So it's very easy to identify
+worn and outdated equipment or just to get interesting usage details.
 
 Whenever SportsTracker displays multiple exercises, which are using sport types
 with different speed modes, then the preferred speed mode will be used. This
@@ -405,12 +410,12 @@ All user interfaces are defined in FXML by using the JavaFX Scene Builder 9.x.
 
 The SportsTracker project uses the following libraries:
 
-  - OpenJFX 11.0.2 (https://openjfx.io/)
+  - OpenJFX 14 (https://openjfx.io/)
       License: GPL v2 + Classpath Exception
   - EasyDI 0.3.0 (https://github.com/lestard/EasyDI)
       Includes: javax.inject-1.jar
       License: Apache License v2.0
-  - Kotlin 1.3.61 (http://kotlinlang.org/)
+  - Kotlin 1.3.70 (http://kotlinlang.org/)
       License: Apache License v2.0
   - JDOM 2.0.6 (http://www.jdom.org)
       License: Apache-style open source license
@@ -431,10 +436,10 @@ The SportsTracker project uses the following libraries:
       License: Eclipse Public License v2.0. and Apache License v2.0
   - Mockito 2.23.0 (http://code.google.com/p/mockito/)
       License: MIT License
-  - Flexible & Interoperable Data Transfer (FIT) Protocol SDK 20.33.01
-      URL: http://www.thisisant.com/pages/products/fit-sdk
+  - Flexible & Interoperable Data Transfer (FIT) Protocol SDK 21.20.00
+      URL: https://www.thisisant.com/developer/
       License: FIT Protocol License (open source by Dynastream / Garmin)
-      License URL: https://www.thisisant.com/resources/fit
+      License URL: https://www.thisisant.com/resources/fit-sdk-beta/
 
 All dependencies will be downloaded automatically by Maven. The Garmin FIT
 library is missing in the Maven central repository, so I've created my own
@@ -516,4 +521,4 @@ based on the IcoMoon icons.
 
 
 Stefan Saring
-2019/12/08
+2020/03/14
